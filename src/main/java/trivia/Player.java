@@ -1,12 +1,15 @@
 package trivia;
 
 import java.util.Objects;
+import java.util.PrimitiveIterator;
 
 final class Player {
     private final String name;
     private int place;
     private int purse;
     private boolean inPenaltyBox;
+
+    private boolean isGettingOutOfPenaltyBox;
 
     Player(String name, int place, int purse, boolean inPenaltyBox) {
         this.name = name;
@@ -33,6 +36,22 @@ final class Player {
 
     public void addCoinToPurse() {
         purse++;
+    }
+
+    public boolean isWinner() {
+        return purse == 6;
+    }
+
+    public boolean isGettingOutOfPenaltyBox() {
+        return isGettingOutOfPenaltyBox;
+    }
+
+    public void gettingOutOfPenaltyBox() {
+        isGettingOutOfPenaltyBox = true;
+    }
+
+    public void notGettingOutOfPenaltyBox() {
+        isGettingOutOfPenaltyBox = false;
     }
 
     public boolean inPenaltyBox() {

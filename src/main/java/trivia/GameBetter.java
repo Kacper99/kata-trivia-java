@@ -14,7 +14,6 @@ public class GameBetter implements IGame {
     final LinkedList<String> rockQuestions = new LinkedList<>();
 
     int currentPlayerIndex = 0;
-    boolean isGettingOutOfPenaltyBox;
 
     public GameBetter() {
         for (int i = 0; i < 50; i++) {
@@ -40,13 +39,13 @@ public class GameBetter implements IGame {
 
         if (currentPlayer.inPenaltyBox()) {
             if (roll % 2 != 0) {
-                isGettingOutOfPenaltyBox = true;
+                currentPlayer.gettingOutOfPenaltyBox();
 
                 System.out.println(currentPlayer.name() + " is getting out of the penalty box");
                 movePlayerAndAskQuestion(roll, currentPlayer);
             } else {
                 System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
-                isGettingOutOfPenaltyBox = false;
+                currentPlayer.notGettingOutOfPenaltyBox();
             }
 
         } else {
@@ -63,10 +62,7 @@ public class GameBetter implements IGame {
                 + "'s new location is "
                 + currentPlayer.place());
         System.out.println("The category is " + currentCategory());
-        askQuestion();
-    }
 
-    private void askQuestion() {
         String currentCategory = currentCategory();
         if (currentCategory.equals("Pop"))
             System.out.println(popQuestions.removeFirst());
@@ -81,22 +77,21 @@ public class GameBetter implements IGame {
 
     private String currentCategory() {
         Player currentPlayer = players.get(this.currentPlayerIndex);
-        if (currentPlayer.place() == 0) return "Pop";
-        if (currentPlayer.place() == 4) return "Pop";
-        if (currentPlayer.place() == 8) return "Pop";
-        if (currentPlayer.place() == 1) return "Science";
-        if (currentPlayer.place() == 5) return "Science";
-        if (currentPlayer.place() == 9) return "Science";
-        if (currentPlayer.place() == 2) return "Sports";
-        if (currentPlayer.place() == 6) return "Sports";
-        if (currentPlayer.place() == 10) return "Sports";
+        int place = currentPlayer.place();
+        if (place % 4 == 0) {
+            return "Pop";
+        } else if (place % 4 == 1) {
+            return "Science";
+        } else if (place % 4 == 2) {
+            return "Sports";
+        }
         return "Rock";
     }
 
     public boolean wasCorrectlyAnswered() {
         Player currentPlayer = players.get(this.currentPlayerIndex);
         if (currentPlayer.inPenaltyBox()) {
-            if (isGettingOutOfPenaltyBox) {
+            if (currentPlayer.isGettingOutOfPenaltyBox()) {
                 System.out.println("Answer was correct!!!!");
                 return addCoinToPurseAndCheckIfWinner(currentPlayer);
             } else {
