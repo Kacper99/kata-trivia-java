@@ -5,15 +5,15 @@ import java.util.LinkedList;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-   ArrayList players = new ArrayList();
+   ArrayList<String> players = new ArrayList<>();
    int[] places = new int[6];
    int[] purses = new int[6];
    boolean[] inPenaltyBox = new boolean[6];
 
-   LinkedList popQuestions = new LinkedList();
-   LinkedList scienceQuestions = new LinkedList();
-   LinkedList sportsQuestions = new LinkedList();
-   LinkedList rockQuestions = new LinkedList();
+   LinkedList<String> popQuestions = new LinkedList<>();
+   LinkedList<String> scienceQuestions = new LinkedList<>();
+   LinkedList<String> sportsQuestions = new LinkedList<>();
+   LinkedList<String> rockQuestions = new LinkedList<>();
 
    int currentPlayer = 0;
    boolean isGettingOutOfPenaltyBox;
@@ -21,14 +21,10 @@ public class GameBetter implements IGame {
    public GameBetter() {
       for (int i = 0; i < 50; i++) {
          popQuestions.addLast("Pop Question " + i);
-         scienceQuestions.addLast(("Science Question " + i));
-         sportsQuestions.addLast(("Sports Question " + i));
-         rockQuestions.addLast(createRockQuestion(i));
+         scienceQuestions.addLast("Science Question " + i);
+         sportsQuestions.addLast("Sports Question " + i);
+         rockQuestions.addLast("Rock Question " + i);
       }
-   }
-
-   public String createRockQuestion(int index) {
-      return "Rock Question " + index;
    }
 
    public boolean isPlayable() {
