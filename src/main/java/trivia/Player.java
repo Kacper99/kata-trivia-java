@@ -1,7 +1,6 @@
 package trivia;
 
 import java.util.Objects;
-import java.util.PrimitiveIterator;
 
 final class Player {
     private final String name;
@@ -38,8 +37,8 @@ final class Player {
         purse++;
     }
 
-    public boolean isWinner() {
-        return purse == 6;
+    public boolean didPlayerWin() {
+        return !(purse == 6);
     }
 
     public boolean isGettingOutOfPenaltyBox() {

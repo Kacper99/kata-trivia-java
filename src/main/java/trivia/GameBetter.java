@@ -1,6 +1,5 @@
 package trivia;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 // REFACTOR ME
@@ -89,14 +88,18 @@ public class GameBetter implements IGame {
         if (currentPlayer.inPenaltyBox()) {
             if (currentPlayer.isGettingOutOfPenaltyBox()) {
                 System.out.println("Answer was correct!!!!");
-                return addCoinToPurseAndCheckIfWinner(currentPlayer);
+                boolean isWinner = addCoinToPurseAndCheckIfWinner(currentPlayer);
+                players.nextPlayer();
+                return isWinner;
             } else {
                 players.nextPlayer();
                 return true;
             }
         } else {
             System.out.println("Answer was corrent!!!!");
-            return addCoinToPurseAndCheckIfWinner(currentPlayer);
+            boolean isWinner = addCoinToPurseAndCheckIfWinner(currentPlayer);
+            players.nextPlayer();
+            return isWinner;
         }
     }
 
@@ -107,10 +110,7 @@ public class GameBetter implements IGame {
                 + currentPlayer.purse()
                 + " Gold Coins.");
 
-        boolean winner = didPlayerWin();
-        players.nextPlayer();
-
-        return winner;
+        return currentPlayer.didPlayerWin();
     }
 
     public boolean wrongAnswer() {
@@ -121,11 +121,5 @@ public class GameBetter implements IGame {
 
         players.nextPlayer();
         return true;
-    }
-
-
-    private boolean didPlayerWin() {
-        Player currentPlayer = players.currentPlayer();
-        return !(currentPlayer.purse() == 6);
     }
 }
