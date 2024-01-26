@@ -5,15 +5,12 @@ import java.util.LinkedList;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-
-    final ArrayList<Player> players = new ArrayList<>();
+    final Players players = new Players();
 
     final LinkedList<String> popQuestions = new LinkedList<>();
     final LinkedList<String> scienceQuestions = new LinkedList<>();
     final LinkedList<String> sportsQuestions = new LinkedList<>();
     final LinkedList<String> rockQuestions = new LinkedList<>();
-
-    int currentPlayerIndex = 0;
 
     public GameBetter() {
         for (int i = 0; i < 50; i++) {
@@ -25,7 +22,7 @@ public class GameBetter implements IGame {
     }
 
     public boolean add(String playerName) {
-        players.add(new Player(playerName, 0, 0, false));
+        players.add(playerName);
 
         System.out.println(playerName + " was added");
         System.out.println("They are player number " + players.size());
@@ -33,7 +30,7 @@ public class GameBetter implements IGame {
     }
 
     public void roll(int roll) {
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = players.currentPlayer();
         System.out.println(currentPlayer.name() + " is the current player");
         System.out.println("They have rolled a " + roll);
 
@@ -61,9 +58,10 @@ public class GameBetter implements IGame {
         System.out.println(currentPlayer.name()
                 + "'s new location is "
                 + currentPlayer.place());
-        System.out.println("The category is " + currentCategory());
 
-        String currentCategory = currentCategory();
+        String currentCategory = currentCategory(currentPlayer.place());
+        System.out.println("The category is " + currentCategory);
+
         if (currentCategory.equals("Pop"))
             System.out.println(popQuestions.removeFirst());
         if (currentCategory.equals("Science"))
@@ -75,9 +73,7 @@ public class GameBetter implements IGame {
     }
 
 
-    private String currentCategory() {
-        Player currentPlayer = players.get(this.currentPlayerIndex);
-        int place = currentPlayer.place();
+    private static String currentCategory(int place) {
         if (place % 4 == 0) {
             return "Pop";
         } else if (place % 4 == 1) {
@@ -89,14 +85,13 @@ public class GameBetter implements IGame {
     }
 
     public boolean wasCorrectlyAnswered() {
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = players.currentPlayer();
         if (currentPlayer.inPenaltyBox()) {
             if (currentPlayer.isGettingOutOfPenaltyBox()) {
                 System.out.println("Answer was correct!!!!");
                 return addCoinToPurseAndCheckIfWinner(currentPlayer);
             } else {
-                this.currentPlayerIndex++;
-                if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
+                players.nextPlayer();
                 return true;
             }
         } else {
@@ -113,26 +108,24 @@ public class GameBetter implements IGame {
                 + " Gold Coins.");
 
         boolean winner = didPlayerWin();
-        this.currentPlayerIndex++;
-        if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
+        players.nextPlayer();
 
         return winner;
     }
 
     public boolean wrongAnswer() {
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = players.currentPlayer();
         System.out.println("Question was incorrectly answered");
         System.out.println(currentPlayer.name() + " was sent to the penalty box");
         currentPlayer.setInPenaltyBox(true);
 
-        this.currentPlayerIndex++;
-        if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
+        players.nextPlayer();
         return true;
     }
 
 
     private boolean didPlayerWin() {
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = players.currentPlayer();
         return !(currentPlayer.purse() == 6);
     }
 }
