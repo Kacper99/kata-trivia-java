@@ -33,10 +33,6 @@ public class GameBetter implements IGame {
         return true;
     }
 
-    public int howManyPlayers() {
-        return players.size();
-    }
-
     public void roll(int roll) {
         Player currentPlayer = players.get(this.currentPlayer);
         System.out.println(currentPlayer.name() + " is the current player");
