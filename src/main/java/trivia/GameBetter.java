@@ -56,8 +56,8 @@ public class GameBetter implements IGame {
     }
 
     private void movePlayerAndAskQuestion(int roll, Player currentPlayer) {
-        currentPlayer.setPlace(currentPlayer.place() + roll);
-        if (currentPlayer.place() > 11) currentPlayer.setPlace(currentPlayer.place() - 12);
+        currentPlayer.move(currentPlayer.place() + roll);
+        if (currentPlayer.place() > 11) currentPlayer.move(currentPlayer.place() - 12);
 
         System.out.println(currentPlayer.name()
                 + "'s new location is "

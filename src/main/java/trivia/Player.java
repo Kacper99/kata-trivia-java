@@ -23,8 +23,8 @@ final class Player {
         return place;
     }
 
-    public void setPlace(int place) {
-        this.place = place;
+    public void move(int to) {
+        this.place = to;
     }
 
     public int purse() {
