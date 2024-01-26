@@ -13,7 +13,7 @@ public class GameBetter implements IGame {
     LinkedList<String> sportsQuestions = new LinkedList<>();
     LinkedList<String> rockQuestions = new LinkedList<>();
 
-    int currentPlayer = 0;
+    int currentPlayerIndex = 0;
     boolean isGettingOutOfPenaltyBox;
 
     public GameBetter() {
@@ -34,7 +34,7 @@ public class GameBetter implements IGame {
     }
 
     public void roll(int roll) {
-        Player currentPlayer = players.get(this.currentPlayer);
+        Player currentPlayer = players.get(this.currentPlayerIndex);
         System.out.println(currentPlayer.name() + " is the current player");
         System.out.println("They have rolled a " + roll);
 
@@ -43,31 +43,27 @@ public class GameBetter implements IGame {
                 isGettingOutOfPenaltyBox = true;
 
                 System.out.println(currentPlayer.name() + " is getting out of the penalty box");
-                currentPlayer.setPlace(currentPlayer.place() + roll);
-                if (currentPlayer.place() > 11) currentPlayer.setPlace(currentPlayer.place() - 12);
-
-                System.out.println(currentPlayer.name()
-                        + "'s new location is "
-                        + currentPlayer.place());
-                System.out.println("The category is " + currentCategory());
-                askQuestion();
+                movePlayerAndAskQuestion(roll, currentPlayer);
             } else {
                 System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
             }
 
         } else {
-
-            currentPlayer.setPlace(currentPlayer.place() + roll);
-            if (currentPlayer.place() > 11) currentPlayer.setPlace(currentPlayer.place() - 12);
-
-            System.out.println(currentPlayer.name()
-                    + "'s new location is "
-                    + currentPlayer.place());
-            System.out.println("The category is " + currentCategory());
-            askQuestion();
+            movePlayerAndAskQuestion(roll, currentPlayer);
         }
 
+    }
+
+    private void movePlayerAndAskQuestion(int roll, Player currentPlayer) {
+        currentPlayer.setPlace(currentPlayer.place() + roll);
+        if (currentPlayer.place() > 11) currentPlayer.setPlace(currentPlayer.place() - 12);
+
+        System.out.println(currentPlayer.name()
+                + "'s new location is "
+                + currentPlayer.place());
+        System.out.println("The category is " + currentCategory());
+        askQuestion();
     }
 
     private void askQuestion() {
@@ -83,7 +79,7 @@ public class GameBetter implements IGame {
 
 
     private String currentCategory() {
-        Player currentPlayer = players.get(this.currentPlayer);
+        Player currentPlayer = players.get(this.currentPlayerIndex);
         if (currentPlayer.place() == 0) return "Pop";
         if (currentPlayer.place() == 4) return "Pop";
         if (currentPlayer.place() == 8) return "Pop";
@@ -97,7 +93,7 @@ public class GameBetter implements IGame {
     }
 
     public boolean wasCorrectlyAnswered() {
-        Player currentPlayer = players.get(this.currentPlayer);
+        Player currentPlayer = players.get(this.currentPlayerIndex);
         if (currentPlayer.inPenaltyBox()) {
             if (isGettingOutOfPenaltyBox) {
                 System.out.println("Answer was correct!!!!");
@@ -108,13 +104,13 @@ public class GameBetter implements IGame {
                         + " Gold Coins.");
 
                 boolean winner = didPlayerWin();
-                this.currentPlayer++;
-                if (this.currentPlayer == players.size()) this.currentPlayer = 0;
+                this.currentPlayerIndex++;
+                if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
 
                 return winner;
             } else {
-                this.currentPlayer++;
-                if (this.currentPlayer == players.size()) this.currentPlayer = 0;
+                this.currentPlayerIndex++;
+                if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
                 return true;
             }
 
@@ -129,27 +125,27 @@ public class GameBetter implements IGame {
                     + " Gold Coins.");
 
             boolean winner = didPlayerWin();
-            this.currentPlayer++;
-            if (this.currentPlayer == players.size()) this.currentPlayer = 0;
+            this.currentPlayerIndex++;
+            if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
 
             return winner;
         }
     }
 
     public boolean wrongAnswer() {
-        Player currentPlayer = players.get(this.currentPlayer);
+        Player currentPlayer = players.get(this.currentPlayerIndex);
         System.out.println("Question was incorrectly answered");
         System.out.println(currentPlayer.name() + " was sent to the penalty box");
         currentPlayer.setInPenaltyBox(true);
 
-        this.currentPlayer++;
-        if (this.currentPlayer == players.size()) this.currentPlayer = 0;
+        this.currentPlayerIndex++;
+        if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
         return true;
     }
 
 
     private boolean didPlayerWin() {
-        Player currentPlayer = players.get(this.currentPlayer);
+        Player currentPlayer = players.get(this.currentPlayerIndex);
         return !(currentPlayer.purse() == 6);
     }
 }
