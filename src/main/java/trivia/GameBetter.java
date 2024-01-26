@@ -6,12 +6,12 @@ import java.util.LinkedList;
 // REFACTOR ME
 public class GameBetter implements IGame {
 
-    ArrayList<Player> players = new ArrayList<>();
+    final ArrayList<Player> players = new ArrayList<>();
 
-    LinkedList<String> popQuestions = new LinkedList<>();
-    LinkedList<String> scienceQuestions = new LinkedList<>();
-    LinkedList<String> sportsQuestions = new LinkedList<>();
-    LinkedList<String> rockQuestions = new LinkedList<>();
+    final LinkedList<String> popQuestions = new LinkedList<>();
+    final LinkedList<String> scienceQuestions = new LinkedList<>();
+    final LinkedList<String> sportsQuestions = new LinkedList<>();
+    final LinkedList<String> rockQuestions = new LinkedList<>();
 
     int currentPlayerIndex = 0;
     boolean isGettingOutOfPenaltyBox;
@@ -98,39 +98,30 @@ public class GameBetter implements IGame {
         if (currentPlayer.inPenaltyBox()) {
             if (isGettingOutOfPenaltyBox) {
                 System.out.println("Answer was correct!!!!");
-                currentPlayer.addCoinToPurse();
-                System.out.println(currentPlayer.name()
-                        + " now has "
-                        + currentPlayer.purse()
-                        + " Gold Coins.");
-
-                boolean winner = didPlayerWin();
-                this.currentPlayerIndex++;
-                if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
-
-                return winner;
+                return addCoinToPurseAndCheckIfWinner(currentPlayer);
             } else {
                 this.currentPlayerIndex++;
                 if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
                 return true;
             }
-
-
         } else {
-
             System.out.println("Answer was corrent!!!!");
-            currentPlayer.addCoinToPurse();
-            System.out.println(currentPlayer.name()
-                    + " now has "
-                    + currentPlayer.purse()
-                    + " Gold Coins.");
-
-            boolean winner = didPlayerWin();
-            this.currentPlayerIndex++;
-            if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
-
-            return winner;
+            return addCoinToPurseAndCheckIfWinner(currentPlayer);
         }
+    }
+
+    private boolean addCoinToPurseAndCheckIfWinner(Player currentPlayer) {
+        currentPlayer.addCoinToPurse();
+        System.out.println(currentPlayer.name()
+                + " now has "
+                + currentPlayer.purse()
+                + " Gold Coins.");
+
+        boolean winner = didPlayerWin();
+        this.currentPlayerIndex++;
+        if (this.currentPlayerIndex == players.size()) this.currentPlayerIndex = 0;
+
+        return winner;
     }
 
     public boolean wrongAnswer() {
