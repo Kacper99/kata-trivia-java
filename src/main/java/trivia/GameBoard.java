@@ -5,23 +5,23 @@ import java.util.Map;
 
 public class GameBoard {
 
-    Map<Integer, String> gameBoard = new HashMap<>();
+    Map<Integer, Category> gameBoard = new HashMap<>();
 
     public GameBoard() {
         for (int place = 0; place < 12; place++) {
             if (place % 4 == 0) {
-                gameBoard.put(place, "Pop");
+                gameBoard.put(place, Category.POP);
             } else if (place % 4 == 1) {
-                gameBoard.put(place, "Science");
+                gameBoard.put(place, Category.SCIENCE);
             } else if (place % 4 == 2) {
-                gameBoard.put(place, "Sports");
+                gameBoard.put(place, Category.SPORTS);
             } else {
-                gameBoard.put(place, "Rock");
+                gameBoard.put(place, Category.ROCK);
             }
         }
     }
 
-    public String currentCategory(int place) {
+    public Category currentCategory(int place) {
         return gameBoard.get(place);
     }
 }

@@ -6,19 +6,9 @@ import java.util.LinkedList;
 public class GameBetter implements IGame {
     final Players players = new Players();
     final GameBoard gameBoard = new GameBoard();
-
-    final LinkedList<String> popQuestions = new LinkedList<>();
-    final LinkedList<String> scienceQuestions = new LinkedList<>();
-    final LinkedList<String> sportsQuestions = new LinkedList<>();
-    final LinkedList<String> rockQuestions = new LinkedList<>();
+    final QuestionDeck questionDeck = new QuestionDeck();
 
     public GameBetter() {
-        for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast("Science Question " + i);
-            sportsQuestions.addLast("Sports Question " + i);
-            rockQuestions.addLast("Rock Question " + i);
-        }
     }
 
     public boolean add(String playerName) {
@@ -55,17 +45,9 @@ public class GameBetter implements IGame {
                 + "'s new location is "
                 + currentPlayer.place());
 
-        String currentCategory = gameBoard.currentCategory(currentPlayer.place());
-        System.out.println("The category is " + currentCategory);
-
-        if (currentCategory.equals("Pop"))
-            System.out.println(popQuestions.removeFirst());
-        if (currentCategory.equals("Science"))
-            System.out.println(scienceQuestions.removeFirst());
-        if (currentCategory.equals("Sports"))
-            System.out.println(sportsQuestions.removeFirst());
-        if (currentCategory.equals("Rock"))
-            System.out.println(rockQuestions.removeFirst());
+        Category currentCategory = gameBoard.currentCategory(currentPlayer.place());
+        System.out.println("The category is " + currentCategory.getName());
+        System.out.println(questionDeck.fetchQuestion(currentCategory));
     }
 
     /**
