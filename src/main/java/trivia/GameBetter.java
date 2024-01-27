@@ -23,21 +23,26 @@ public class GameBetter implements IGame {
         System.out.println("They have rolled a " + roll);
 
         if (currentPlayer.inPenaltyBox()) {
-            if (roll % 2 != 0) {
-                System.out.println(currentPlayer.name() + " is getting out of the penalty box");
-                currentPlayer.gettingOutOfPenaltyBox();
-            } else {
-                System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
-                currentPlayer.notGettingOutOfPenaltyBox();
-                return;
-            }
+            handlePenaltyBox(roll, currentPlayer);
+        } else {
+            movePlayer(roll, currentPlayer);
+            askQuestion(currentPlayer);
         }
-        movePlayerAndAskQuestion(roll, currentPlayer);
     }
 
-    private void movePlayerAndAskQuestion(int roll, Player currentPlayer) {
-        movePlayer(roll, currentPlayer);
+    private void handlePenaltyBox(int roll, Player currentPlayer) {
+        if (roll % 2 != 0) {
+            System.out.println(currentPlayer.name() + " is getting out of the penalty box");
+            currentPlayer.gettingOutOfPenaltyBox();
+            movePlayer(roll, currentPlayer);
+            askQuestion(currentPlayer);
+        } else {
+            System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
+            currentPlayer.notGettingOutOfPenaltyBox();
+        }
+    }
 
+    private void askQuestion(Player currentPlayer) {
         Category currentCategory = gameBoard.currentCategory(currentPlayer.place());
         System.out.println("The category is " + currentCategory.getName());
         System.out.println(questionDeck.fetchQuestion(currentCategory));
