@@ -5,6 +5,7 @@ import java.util.LinkedList;
 // REFACTOR ME
 public class GameBetter implements IGame {
     final Players players = new Players();
+    final GameBoard gameBoard = new GameBoard();
 
     final LinkedList<String> popQuestions = new LinkedList<>();
     final LinkedList<String> scienceQuestions = new LinkedList<>();
@@ -54,7 +55,7 @@ public class GameBetter implements IGame {
                 + "'s new location is "
                 + currentPlayer.place());
 
-        String currentCategory = currentCategory(currentPlayer.place());
+        String currentCategory = gameBoard.currentCategory(currentPlayer.place());
         System.out.println("The category is " + currentCategory);
 
         if (currentCategory.equals("Pop"))
@@ -65,18 +66,6 @@ public class GameBetter implements IGame {
             System.out.println(sportsQuestions.removeFirst());
         if (currentCategory.equals("Rock"))
             System.out.println(rockQuestions.removeFirst());
-    }
-
-
-    private static String currentCategory(int place) {
-        if (place % 4 == 0) {
-            return "Pop";
-        } else if (place % 4 == 1) {
-            return "Science";
-        } else if (place % 4 == 2) {
-            return "Sports";
-        }
-        return "Rock";
     }
 
     /**
