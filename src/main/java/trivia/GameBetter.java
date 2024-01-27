@@ -35,19 +35,15 @@ public class GameBetter implements IGame {
 
         if (currentPlayer.inPenaltyBox()) {
             if (roll % 2 != 0) {
-                currentPlayer.gettingOutOfPenaltyBox();
-
                 System.out.println(currentPlayer.name() + " is getting out of the penalty box");
-                movePlayerAndAskQuestion(roll, currentPlayer);
+                currentPlayer.gettingOutOfPenaltyBox();
             } else {
                 System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
                 currentPlayer.notGettingOutOfPenaltyBox();
+                return;
             }
-
-        } else {
-            movePlayerAndAskQuestion(roll, currentPlayer);
         }
-
+        movePlayerAndAskQuestion(roll, currentPlayer);
     }
 
     private void movePlayerAndAskQuestion(int roll, Player currentPlayer) {
@@ -84,7 +80,6 @@ public class GameBetter implements IGame {
     }
 
     /**
-     *
      * @return false if game is won
      */
     public boolean wasCorrectlyAnswered() {
