@@ -83,34 +83,30 @@ public class GameBetter implements IGame {
         return "Rock";
     }
 
+    /**
+     *
+     * @return false if game is won
+     */
     public boolean wasCorrectlyAnswered() {
         Player currentPlayer = players.currentPlayer();
-        if (currentPlayer.inPenaltyBox()) {
-            if (currentPlayer.isGettingOutOfPenaltyBox()) {
-                System.out.println("Answer was correct!!!!");
-                boolean isWinner = addCoinToPurseAndCheckIfWinner(currentPlayer);
-                players.nextPlayer();
-                return isWinner;
-            } else {
-                players.nextPlayer();
-                return true;
-            }
-        } else {
-            System.out.println("Answer was corrent!!!!");
-            boolean isWinner = addCoinToPurseAndCheckIfWinner(currentPlayer);
-            players.nextPlayer();
-            return isWinner;
+
+        boolean isGameStillInPlay = true;
+        if (currentPlayer.isNotInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
+            System.out.println("Answer was correct!!!!");
+            isGameStillInPlay = addCoinToPurseAndCheckIfGameIsStillInPlay(currentPlayer);
         }
+        players.nextPlayer();
+        return isGameStillInPlay;
     }
 
-    private boolean addCoinToPurseAndCheckIfWinner(Player currentPlayer) {
+    private boolean addCoinToPurseAndCheckIfGameIsStillInPlay(Player currentPlayer) {
         currentPlayer.addCoinToPurse();
         System.out.println(currentPlayer.name()
                 + " now has "
                 + currentPlayer.purse()
                 + " Gold Coins.");
 
-        return currentPlayer.didPlayerWin();
+        return !currentPlayer.didPlayerWin();
     }
 
     public boolean wrongAnswer() {

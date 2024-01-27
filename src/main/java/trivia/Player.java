@@ -38,7 +38,7 @@ final class Player {
     }
 
     public boolean didPlayerWin() {
-        return !(purse == 6);
+        return purse == 6;
     }
 
     public boolean isGettingOutOfPenaltyBox() {
@@ -55,6 +55,10 @@ final class Player {
 
     public boolean inPenaltyBox() {
         return inPenaltyBox;
+    }
+
+    public boolean isNotInPenaltyBox() {
+        return !inPenaltyBox;
     }
 
     public void setInPenaltyBox(boolean inPenaltyBox) {
