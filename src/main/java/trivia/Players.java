@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Players {
 
-    List<Player> playerList = new ArrayList<Player>();
-    int currentPlayerIndex = 0;
+    private final List<Player> playerList = new ArrayList<Player>();
+    private int currentPlayerIndex = 0;
 
     public boolean add(String playerName) {
         playerList.add(new Player(playerName, 0, 0, false));

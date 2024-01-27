@@ -1,12 +1,10 @@
 package trivia;
 
-import java.util.LinkedList;
-
 // REFACTOR ME
 public class GameBetter implements IGame {
-    final Players players = new Players();
-    final GameBoard gameBoard = new GameBoard();
-    final QuestionDeck questionDeck = new QuestionDeck();
+    private final Players players = new Players();
+    private final GameBoard gameBoard = new GameBoard();
+    private final QuestionDeck questionDeck = new QuestionDeck();
 
     public GameBetter() {
     }
@@ -38,16 +36,20 @@ public class GameBetter implements IGame {
     }
 
     private void movePlayerAndAskQuestion(int roll, Player currentPlayer) {
+        movePlayer(roll, currentPlayer);
+
+        Category currentCategory = gameBoard.currentCategory(currentPlayer.place());
+        System.out.println("The category is " + currentCategory.getName());
+        System.out.println(questionDeck.fetchQuestion(currentCategory));
+    }
+
+    private static void movePlayer(int roll, Player currentPlayer) {
         currentPlayer.move(currentPlayer.place() + roll);
         if (currentPlayer.place() > 11) currentPlayer.move(currentPlayer.place() - 12);
 
         System.out.println(currentPlayer.name()
                 + "'s new location is "
                 + currentPlayer.place());
-
-        Category currentCategory = gameBoard.currentCategory(currentPlayer.place());
-        System.out.println("The category is " + currentCategory.getName());
-        System.out.println(questionDeck.fetchQuestion(currentCategory));
     }
 
     /**

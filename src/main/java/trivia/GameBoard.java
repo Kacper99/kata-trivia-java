@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class GameBoard {
 
-    Map<Integer, Category> gameBoard = new HashMap<>();
+    private final Map<Integer, Category> gameBoard = new HashMap<>();
 
     public GameBoard() {
         for (int place = 0; place < 12; place++) {
