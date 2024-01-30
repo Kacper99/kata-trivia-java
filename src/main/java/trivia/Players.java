@@ -6,7 +6,7 @@ import java.util.List;
 public class Players {
 
     private final List<Player> playerList = new ArrayList<>();
-    private int currentPlayerIndex = 0;
+    private int currentPlayerIndex = -1;
 
     public boolean add(String playerName) {
         playerList.add(new Player(playerName));
@@ -21,7 +21,8 @@ public class Players {
         return playerList.size();
     }
 
-    public void nextPlayer() {
+    public Player nextPlayer() {
         currentPlayerIndex = (currentPlayerIndex + 1) % playerList.size();
+        return currentPlayer();
     }
 }

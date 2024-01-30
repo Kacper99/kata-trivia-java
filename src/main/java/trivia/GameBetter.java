@@ -16,7 +16,8 @@ public class GameBetter implements IGame {
     }
 
     public void roll(int roll) {
-        Player currentPlayer = players.currentPlayer();
+        Player currentPlayer = players.nextPlayer();
+
         System.out.println(currentPlayer.name() + " is the current player");
         System.out.println("They have rolled a " + roll);
 
@@ -32,6 +33,7 @@ public class GameBetter implements IGame {
         if (roll % 2 != 0) {
             System.out.println(currentPlayer.name() + " is getting out of the penalty box");
             currentPlayer.gettingOutOfPenaltyBox();
+
             movePlayer(currentPlayer, roll);
             askQuestion(currentPlayer);
         } else {
@@ -58,7 +60,6 @@ public class GameBetter implements IGame {
      */
     public boolean wasCorrectlyAnswered() {
         Player currentPlayer = players.currentPlayer();
-        players.nextPlayer();
 
         if (currentPlayer.inPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
             return true;
@@ -71,7 +72,7 @@ public class GameBetter implements IGame {
     }
 
     private static void addCoin(Player player) {
-        player.addCoinToPurse();
+        player.addCoin();
         System.out.println(player.name()
                 + " now has "
                 + player.coins()
@@ -84,7 +85,6 @@ public class GameBetter implements IGame {
         System.out.println(currentPlayer.name() + " was sent to the penalty box");
 
         currentPlayer.moveToPenaltyBox();
-        players.nextPlayer();
         return true;
     }
 }

@@ -1,19 +1,14 @@
 package trivia;
 
-import java.util.Objects;
-
 final class Player {
     private final String name;
-    private int place;
-    private int purse;
-    private boolean inPenaltyBox;
-    private boolean isGettingOutOfPenaltyBox;
+    private int place = 0;
+    private int purse = 0;
+    private boolean inPenaltyBox = false;
+    private boolean isGettingOutOfPenaltyBox = true;
 
     Player(String name) {
         this.name = name;
-        this.place = 0;
-        this.purse = 0;
-        this.inPenaltyBox = false;
     }
 
     public String name() {
@@ -32,7 +27,7 @@ final class Player {
         return purse;
     }
 
-    public void addCoinToPurse() {
+    public void addCoin() {
         purse++;
     }
 
@@ -54,30 +49,5 @@ final class Player {
 
     public void moveToPenaltyBox() {
         this.inPenaltyBox = true;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Player) obj;
-        return Objects.equals(this.name, that.name) &&
-                this.place == that.place &&
-                this.purse == that.purse &&
-                this.inPenaltyBox == that.inPenaltyBox;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, place, purse, inPenaltyBox);
-    }
-
-    @Override
-    public String toString() {
-        return "Player[" +
-                "name=" + name + ", " +
-                "place=" + place + ", " +
-                "purse=" + purse + ", " +
-                "inPenaltyBox=" + inPenaltyBox + ']';
     }
 }
