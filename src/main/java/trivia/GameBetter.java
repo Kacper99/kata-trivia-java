@@ -2,7 +2,9 @@ package trivia;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-    public static final int BOARD_SIZE = 12;
+    private static final int BOARD_SIZE = 12;
+    private static final int COINS_TO_WIN = 6;
+
     private final Players players = new Players();
     private final GameBoard gameBoard = new GameBoard();
     private final QuestionDeck questionDeck = new QuestionDeck();
@@ -67,7 +69,7 @@ public class GameBetter implements IGame {
 
         System.out.println("Answer was correct!!!!");
         addCoin(currentPlayer);
-        return currentPlayer.coins() < 6;
+        return currentPlayer.coins() < COINS_TO_WIN;
 
     }
 
