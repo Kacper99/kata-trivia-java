@@ -8,17 +8,18 @@ public class GameBoard {
     private final Map<Integer, Category> gameBoard = new HashMap<>();
 
     public GameBoard() {
-        for (int place = 0; place < 12; place++) {
-            if (place % 4 == 0) {
-                gameBoard.put(place, Category.POP);
-            } else if (place % 4 == 1) {
-                gameBoard.put(place, Category.SCIENCE);
-            } else if (place % 4 == 2) {
-                gameBoard.put(place, Category.SPORTS);
-            } else {
-                gameBoard.put(place, Category.ROCK);
-            }
-        }
+        gameBoard.put(0, Category.POP);
+        gameBoard.put(1, Category.SCIENCE);
+        gameBoard.put(2, Category.SPORTS);
+        gameBoard.put(3, Category.ROCK);
+        gameBoard.put(4, Category.POP);
+        gameBoard.put(5, Category.SCIENCE);
+        gameBoard.put(6, Category.SPORTS);
+        gameBoard.put(7, Category.ROCK);
+        gameBoard.put(8, Category.POP);
+        gameBoard.put(9, Category.SCIENCE);
+        gameBoard.put(10, Category.SPORTS);
+        gameBoard.put(11, Category.ROCK);
     }
 
     public Category currentCategory(int place) {

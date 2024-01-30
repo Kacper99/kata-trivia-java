@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Players {
 
-    private final List<Player> playerList = new ArrayList<Player>();
+    private final List<Player> playerList = new ArrayList<>();
     private int currentPlayerIndex = 0;
 
     public boolean add(String playerName) {
-        playerList.add(new Player(playerName, 0, 0, false));
+        playerList.add(new Player(playerName));
         return true;
     }
 
@@ -22,9 +22,6 @@ public class Players {
     }
 
     public void nextPlayer() {
-        currentPlayerIndex++;
-        if (currentPlayerIndex == playerList.size()) {
-            currentPlayerIndex = 0;
-        }
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerList.size();
     }
 }

@@ -7,9 +7,6 @@ public class GameBetter implements IGame {
     private final GameBoard gameBoard = new GameBoard();
     private final QuestionDeck questionDeck = new QuestionDeck();
 
-    public GameBetter() {
-    }
-
     public boolean add(String playerName) {
         players.add(playerName);
 
@@ -61,26 +58,23 @@ public class GameBetter implements IGame {
      */
     public boolean wasCorrectlyAnswered() {
         Player currentPlayer = players.currentPlayer();
-
-        boolean hasPlayerWon = false;
-        if (currentPlayer.isNotInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
-            System.out.println("Answer was correct!!!!");
-            addCoin(currentPlayer);
-            hasPlayerWon = currentPlayer.didPlayerWin();
-        }
         players.nextPlayer();
-        return !hasPlayerWon;
-    }
 
-    private boolean addCoinToPurseAndCheckIfGameIsStillInPlay(Player currentPlayer) {
-        return !currentPlayer.didPlayerWin();
+        if (currentPlayer.inPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+            return true;
+        }
+
+        System.out.println("Answer was correct!!!!");
+        addCoin(currentPlayer);
+        return currentPlayer.coins() < 6;
+
     }
 
     private static void addCoin(Player player) {
         player.addCoinToPurse();
         System.out.println(player.name()
                 + " now has "
-                + player.purse()
+                + player.coins()
                 + " Gold Coins.");
     }
 
@@ -88,8 +82,8 @@ public class GameBetter implements IGame {
         Player currentPlayer = players.currentPlayer();
         System.out.println("Question was incorrectly answered");
         System.out.println(currentPlayer.name() + " was sent to the penalty box");
-        currentPlayer.setInPenaltyBox(true);
 
+        currentPlayer.moveToPenaltyBox();
         players.nextPlayer();
         return true;
     }

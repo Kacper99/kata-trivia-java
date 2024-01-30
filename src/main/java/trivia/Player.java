@@ -7,14 +7,13 @@ final class Player {
     private int place;
     private int purse;
     private boolean inPenaltyBox;
-
     private boolean isGettingOutOfPenaltyBox;
 
-    Player(String name, int place, int purse, boolean inPenaltyBox) {
+    Player(String name) {
         this.name = name;
-        this.place = place;
-        this.purse = purse;
-        this.inPenaltyBox = inPenaltyBox;
+        this.place = 0;
+        this.purse = 0;
+        this.inPenaltyBox = false;
     }
 
     public String name() {
@@ -29,16 +28,12 @@ final class Player {
         this.place = to;
     }
 
-    public int purse() {
+    public int coins() {
         return purse;
     }
 
     public void addCoinToPurse() {
         purse++;
-    }
-
-    public boolean didPlayerWin() {
-        return purse == 6;
     }
 
     public boolean isGettingOutOfPenaltyBox() {
@@ -57,12 +52,8 @@ final class Player {
         return inPenaltyBox;
     }
 
-    public boolean isNotInPenaltyBox() {
-        return !inPenaltyBox;
-    }
-
-    public void setInPenaltyBox(boolean inPenaltyBox) {
-        this.inPenaltyBox = inPenaltyBox;
+    public void moveToPenaltyBox() {
+        this.inPenaltyBox = true;
     }
 
     @Override
