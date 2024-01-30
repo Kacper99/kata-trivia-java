@@ -2,6 +2,7 @@ package trivia;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
+    public static final int BOARD_SIZE = 12;
     private final Players players = new Players();
     private final GameBoard gameBoard = new GameBoard();
     private final QuestionDeck questionDeck = new QuestionDeck();
@@ -23,23 +24,30 @@ public class GameBetter implements IGame {
         System.out.println("They have rolled a " + roll);
 
         if (currentPlayer.inPenaltyBox()) {
-            handlePenaltyBox(roll, currentPlayer);
+            handlePenaltyBox(currentPlayer, roll);
         } else {
-            movePlayer(roll, currentPlayer);
+            movePlayer(currentPlayer, roll);
             askQuestion(currentPlayer);
         }
     }
 
-    private void handlePenaltyBox(int roll, Player currentPlayer) {
+    private void handlePenaltyBox(Player currentPlayer, int roll) {
         if (roll % 2 != 0) {
             System.out.println(currentPlayer.name() + " is getting out of the penalty box");
             currentPlayer.gettingOutOfPenaltyBox();
-            movePlayer(roll, currentPlayer);
+            movePlayer(currentPlayer, roll);
             askQuestion(currentPlayer);
         } else {
             System.out.println(currentPlayer.name() + " is not getting out of the penalty box");
             currentPlayer.notGettingOutOfPenaltyBox();
         }
+    }
+
+    private static void movePlayer(Player currentPlayer, int roll) {
+        currentPlayer.move((currentPlayer.place() + roll) % BOARD_SIZE);
+        System.out.println(currentPlayer.name()
+                + "'s new location is "
+                + currentPlayer.place());
     }
 
     private void askQuestion(Player currentPlayer) {
@@ -48,38 +56,32 @@ public class GameBetter implements IGame {
         System.out.println(questionDeck.fetchQuestion(currentCategory));
     }
 
-    private static void movePlayer(int roll, Player currentPlayer) {
-        currentPlayer.move(currentPlayer.place() + roll);
-        if (currentPlayer.place() > 11) currentPlayer.move(currentPlayer.place() - 12);
-
-        System.out.println(currentPlayer.name()
-                + "'s new location is "
-                + currentPlayer.place());
-    }
-
     /**
-     * @return false if game is won
+     * @return false if game is won by the current player
      */
     public boolean wasCorrectlyAnswered() {
         Player currentPlayer = players.currentPlayer();
 
-        boolean isGameStillInPlay = true;
+        boolean hasPlayerWon = false;
         if (currentPlayer.isNotInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
             System.out.println("Answer was correct!!!!");
-            isGameStillInPlay = addCoinToPurseAndCheckIfGameIsStillInPlay(currentPlayer);
+            addCoin(currentPlayer);
+            hasPlayerWon = currentPlayer.didPlayerWin();
         }
         players.nextPlayer();
-        return isGameStillInPlay;
+        return !hasPlayerWon;
     }
 
     private boolean addCoinToPurseAndCheckIfGameIsStillInPlay(Player currentPlayer) {
-        currentPlayer.addCoinToPurse();
-        System.out.println(currentPlayer.name()
-                + " now has "
-                + currentPlayer.purse()
-                + " Gold Coins.");
-
         return !currentPlayer.didPlayerWin();
+    }
+
+    private static void addCoin(Player player) {
+        player.addCoinToPurse();
+        System.out.println(player.name()
+                + " now has "
+                + player.purse()
+                + " Gold Coins.");
     }
 
     public boolean wrongAnswer() {
